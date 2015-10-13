@@ -4,7 +4,8 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
     config = require('./config/config.js'),
-    ConnectMongo = require('connect-mongo')(session);
+    ConnectMongo = require('connect-mongo')(session),
+    mongoose = require('mongoose').connect(config.dbURL);
 
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('hogan-express'));
@@ -28,11 +29,31 @@ if(env === 'development'){
     resave: false,
     saveUninitialized: false,
     store: new ConnectMongo({
-      url: config.dbURL,
+      // url: config.dbURL,
+      mongooseConnection: mongoose.connections[0],
       stringify: true
     })
   }))
 }
+
+var userSchema =  mongoose.Schema({
+    username:String,
+    password:String,
+    fullname:String
+})
+
+var Person = mongoose.model('users', userSchema);
+
+var John = new Person({
+    username:'johndoe',
+    password:'mypassword',
+    fullname:'John Doe'
+})
+
+John.save(function(err){
+    console.log('Done!');
+})
+
 require('./routes/routes.js')(express, app);
 
 app.listen(3000, function(){
