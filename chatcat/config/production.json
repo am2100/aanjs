@@ -1,5 +1,5 @@
 
 {
-  "dbURL":"mongodb://chatcatuser:ch@rl13CHARLIE@ds051553.mongolab.com:51553/chatcat",
+  "dbURL":"mongodb://chatcatuser:charl13CHARLIE@ds037244.mongolab.com:37244/chatcat",
   "sessionSecret":"asdfghjklWERTYUIOP123456789"
 }
